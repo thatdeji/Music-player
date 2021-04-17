@@ -1,0 +1,45 @@
+// resets
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  background-color: var(--white);
+  font-family: -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu,
+    Cantarell, Fira Sans, Droid Sans, Helvetica Neue, Segoe UI, sans-serif;
+  color: $black;
+  height: 100%;
+  width: 100%;
+}
+::-webkit-scrollbar-track {
+  background: $blue;
+}
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-button {
+  background: $white;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: $blue;
+}
+//Container
+.music-container {
+  width: 100%;
+  min-height: 100vh;
+  @include flex();
+  padding: 10px 10px;
+}
+//muci player container
+.music-row {
+  max-width: 992px;
+  @include flex($direction: column);
+  @include media("<=768px") {
+    max-width: 200px;
+  }
+  @include media("<=300px") {
+    max-width: 200px;
+  }
+}

@@ -1,0 +1,27 @@
+.menu-btn {
+  position: fixed;
+  top: 20px;
+  right: 60px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 400;
+  border: 1px solid $blue;
+  padding: 8px;
+  transition: 0.3s ease-in;
+  @include media("<=768px") {
+    right: 15px;
+  }
+}
+// State of button when open
+.menu-btn.is-open {
+  color: $white;
+  background: $blue;
+}
+//Hide button title
+@include media("<=360px") {
+  .menu-btn span {
+    display: none;
+  }
+}

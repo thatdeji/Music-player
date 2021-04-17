@@ -1,8 +1,10 @@
 @import "mixins/breakpoints";
 
 @import "core/variables";
-@import "core/base";
+@import "core/global";
 
-@import "components/nav";
-
-// @import "pages/home";
+@import "components/musicinfo";
+@import "components/trackbar";
+@import "components/musiccontrol";
+@import "components/menubutton";
+@import "components/musiclist";

@@ -1,0 +1,53 @@
+// Sidebar navigation
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 250px;
+  transform: translateX(-105%);
+  transition: transform 0.3s ease-in;
+  height: 100%;
+  overflow: auto;
+  z-index: 1000;
+  background: $white;
+  box-shadow: $shadow2;
+  @include media("<=300px") {
+    min-width: 200px;
+  }
+}
+// State of sidebar when open
+.sidebar.is-open {
+  transform: translateX(0);
+}
+.music-list-header {
+  font-size: 1rem;
+  margin-top: 6px;
+  text-align: center;
+  color: $black;
+  margin: 20px 0;
+}
+.music-list {
+  list-style: none;
+  margin: 5px 0;
+}
+.music-list-item {
+  @include flex();
+  padding: 7px;
+  color: $black;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in;
+}
+.music-list-item:hover,
+.music-list-item.is-active {
+  background: $grey;
+}
+.music-list-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+.music-list-title {
+  font-size: 0.6rem;
+  font-weight: 400;
+  margin-left: 10px;
+}

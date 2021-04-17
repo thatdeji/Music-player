@@ -1,0 +1,25 @@
+.music-controls {
+  margin-top: 20px;
+  width: 100%;
+  @include flex($justify: space-between);
+}
+.music-control {
+  outline: none;
+  border: none;
+  cursor: pointer;
+  background: none;
+  color: $black;
+}
+.music-control i {
+  font-size: 1.5rem;
+  @include media("<=768px") {
+    font-size: 1.5rem;
+  }
+  @include media("<=300px") {
+    font-size: 1.3rem;
+  }
+}
+// Active control button
+.music-control i.is-active {
+  color: $blue;
+}
