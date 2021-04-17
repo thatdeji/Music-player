@@ -129,3 +129,5 @@ const playInfo = (() => {
     init
   };
 })();
+
+export default playInfo;
