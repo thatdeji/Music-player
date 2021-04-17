@@ -55,6 +55,10 @@ const trackBar = (() => {
     render();
     listeners();
   };
+
+  return {
+    init
+  };
 })();
 
 export default trackBar;

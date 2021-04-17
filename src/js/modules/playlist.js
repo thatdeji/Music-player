@@ -21,6 +21,7 @@ const playList = (() => {
     });
     musicListEl.innerHTML = markup;
   };
+  //handles the playlist items click event
   const handleClick = e => {
     if (
       (e.target && e.target.matches(".music-list-item")) ||
@@ -37,12 +38,24 @@ const playList = (() => {
     }
   };
 
-  var playListListener = () => {
+  // sets up event listeners
+  const listeners = () => {
     menuBtn.addEventListener("click", e => {
       sideBar.classList.toggle("is-open");
       menuBtn.classList.toggle("is-open");
     });
     musicListEl.addEventListener("click", handleClick);
+  };
+
+  const init = () => {
+    render();
+    listeners();
+  };
+
+  return {
+    init,
+    render,
+    listeners
   };
 })();
 
