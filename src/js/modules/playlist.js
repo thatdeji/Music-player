@@ -1,4 +1,5 @@
 import songList from "./song.js";
+import playInfo from "./playinfo.js";
 
 const playList = (() => {
   // caches the DOM
@@ -19,6 +20,29 @@ const playList = (() => {
     </li>`;
     });
     musicListEl.innerHTML = markup;
+  };
+  const handleClick = e => {
+    if (
+      (e.target && e.target.matches(".music-list-item")) ||
+      e.target.matches(".music-list-image") ||
+      e.target.matches(".music-list-title")
+    ) {
+      audioEl.duration = 0;
+      playInfo.setState({
+        isPlaying: true,
+        currentlyPlayingIndex: Number(e.target.id)
+      });
+      audioEl.play();
+      render();
+    }
+  };
+
+  var playListListener = () => {
+    menuBtn.addEventListener("click", e => {
+      sideBar.classList.toggle("is-open");
+      menuBtn.classList.toggle("is-open");
+    });
+    musicListEl.addEventListener("click", handleClick);
   };
 })();
 

@@ -127,7 +127,8 @@ const playInfo = (() => {
   };
   return {
     init,
-    handleNext
+    handleNext,
+    setState
   };
 })();
 
