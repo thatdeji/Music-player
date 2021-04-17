@@ -1,3 +1,5 @@
+import playInfo from "./playinfo.js";
+
 // IIFE for trackbar module
 const trackBar = (() => {
   // cache the DOM
@@ -9,22 +11,49 @@ const trackBar = (() => {
     totalTime: 0,
     fillWidth: 0
   };
+  // sets music progress
+  function setProgress(e) {
+    var clickX = e.offsetX;
+    var width = this.clientWidth;
+    var duration = audioEl.duration;
+    audioEl.currentTime = clickX / width * duration;
+  }
+  //handles the end of a song
+  var handleEnd = () => {
+    if (state.isRepeated) {
+      setState({
+        isPlaying: true,
+        currentlyPlayingIndex: state.currentlyPlayingIndex
+      });
+      audioEl.play();
+    } else {
+      playInfo.handleNext();
+    }
+  };
   // renders to the DOM
   const render = () => {
-    trackBarEl.style.width = `${trackbarState.fillWidth}%`;
+    trackBarEl.style.width = `${state.fillWidth}%`;
   };
   // sets state and renders to the DOM
   const setState = obj => {
     const { duration, currentTime } = obj;
-    trackbarState.currentTime = currentTime;
-    trackbarState.totalTime = duration;
-    trackbarState.fillWidth =
-      trackbarState.currentTime / trackbarState.totalTime * 100;
+    state.currentTime = currentTime;
+    state.totalTime = duration;
+    state.fillWidth = state.currentTime / state.totalTime * 100;
     render();
+  };
+  //sets up event listeners
+  var listeners = () => {
+    audioEl.addEventListener("timeupdate", e => {
+      setState(e.srcElement);
+    });
+    audioEl.addEventListener("ended", handleEnd);
+    trackContainerEl.addEventListener("click", setProgress);
   };
   // initialize module
   const init = () => {
     render();
+    listeners();
   };
 })();
 

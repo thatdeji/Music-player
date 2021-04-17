@@ -126,7 +126,8 @@ const playInfo = (() => {
     return Math.floor(Math.random() * songList.length);
   };
   return {
-    init
+    init,
+    handleNext
   };
 })();
 
