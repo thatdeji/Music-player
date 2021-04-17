@@ -1,4 +1,5 @@
 import { songList } from "./song.js";
+import playList from "./playlist.js";
 
 // Playinfo module //IIFE
 const playInfo = (() => {
@@ -11,7 +12,8 @@ const playInfo = (() => {
     buttonPrevEl = document.querySelector("#js-button-prev"),
     buttonPlayEl = document.querySelector("#js-button-play"),
     buttonNextEl = document.querySelector("#js-button-next"),
-    buttonRepeatEl = document.querySelector("#js-button-repeat");
+    buttonRepeatEl = document.querySelector("#js-button-repeat"),
+    trackBarEl = document.querySelector("#js-track-bar");
 
   // state
   const state = {
@@ -23,6 +25,8 @@ const playInfo = (() => {
 
   //loads song details to the DOM
   const loadSongDetails = state => {
+    trackBarEl.style.backgroundColor = `${songList[state.currentlyPlayingIndex]
+      .color}`;
     musicCoverEl.src = `${songList[state.currentlyPlayingIndex].cover}.jpg`;
     audioEl.src = `${songList[state.currentlyPlayingIndex].url}.mp3`;
     musicTitleEl.innerText = songList[state.currentlyPlayingIndex].title;
@@ -54,16 +58,17 @@ const playInfo = (() => {
   };
 
   // changes song either forwards or backwards
-  const songMove = () => {
+  const songMove = index => {
+    // const currentlyPlayingIndex = currentlyPlayingIndex;
     if (state.isShuffled) {
       setState({ isPlaying: true, currentlyPlayingIndex: getRandomIndex() });
     } else {
       setState({
         isPlaying: true,
-        currentlyPlayingIndex: currentlyPlayingIndex
+        currentlyPlayingIndex: index
       });
     }
-    render();
+    playList.render();
     audioEl.play();
   };
   // plays or pauses song
@@ -74,19 +79,19 @@ const playInfo = (() => {
   };
   // moves song forwards
   const handleNext = () => {
-    currentlyPlayingIndex =
+    const currentlyPlayingIndex =
       state.currentlyPlayingIndex === songList.length - 1
         ? 0
         : state.currentlyPlayingIndex + 1;
-    songMove();
+    songMove(currentlyPlayingIndex);
   };
   // moves song backwards
   const handlePrev = () => {
-    currentlyPlayingIndex =
+    const currentlyPlayingIndex =
       state.currentlyPlayingIndex === 0
         ? songList.length - 1
         : state.currentlyPlayingIndex - 1;
-    songMove();
+    songMove(currentlyPlayingIndex);
   };
   //shuffles song
   const handleShuffle = () => {

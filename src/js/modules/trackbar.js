@@ -5,26 +5,31 @@ const trackBar = (() => {
   // cache the DOM
   const trackContainerEl = document.querySelector("#js-track-container"),
     audioEl = document.querySelector("#js-audio"),
-    trackBarEl = document.querySelector("#js-track-bar");
+    trackBarEl = document.querySelector("#js-track-bar"),
+    currentTimeEl = document.querySelector("#js-current-time");
   //state
   const state = {
     currentTime: 0,
     totalTime: 0,
     fillWidth: 0
   };
+  //handles progress on song time update
+  const handleProgress = e => {
+    setState(e.srcElement);
+  };
   // sets music progress
   function setProgress(e) {
-    var clickX = e.offsetX;
-    var width = this.clientWidth;
-    var duration = audioEl.duration;
+    const clickX = e.offsetX;
+    const width = this.clientWidth;
+    const duration = audioEl.duration;
     audioEl.currentTime = clickX / width * duration;
   }
   //handles the end of a song
-  var handleEnd = () => {
-    if (state.isRepeated) {
-      setState({
+  const handleEnd = () => {
+    if (playInfo.state.isRepeated) {
+      playInfo.setState({
         isPlaying: true,
-        currentlyPlayingIndex: state.currentlyPlayingIndex
+        currentlyPlayingIndex: playInfo.state.currentlyPlayingIndex
       });
       audioEl.play();
     } else {
@@ -34,6 +39,10 @@ const trackBar = (() => {
   // renders to the DOM
   const render = () => {
     trackBarEl.style.width = `${state.fillWidth}%`;
+    const seconds = parseInt(state.currentTime % 60);
+    currentTimeEl.textContent = `${parseInt(
+      (state.currentTime / 60) % 60
+    )}:${seconds < 10 ? "0" + seconds : seconds}`;
   };
   // sets state and renders to the DOM
   const setState = obj => {
@@ -41,12 +50,13 @@ const trackBar = (() => {
     state.currentTime = currentTime;
     state.totalTime = duration;
     state.fillWidth = state.currentTime / state.totalTime * 100;
+    console.log();
     render();
   };
   //sets up event listeners
-  var listeners = () => {
+  const listeners = () => {
     audioEl.addEventListener("timeupdate", e => {
-      setState(e.srcElement);
+      handleProgress(e);
     });
     audioEl.addEventListener("ended", handleEnd);
     trackContainerEl.addEventListener("click", setProgress);

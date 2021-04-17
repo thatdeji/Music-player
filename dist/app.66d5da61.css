@@ -147,8 +147,21 @@ body {
   transition: width 0.1s linear;
 }
 
+.track-range {
+  width: 100%;
+  display: none;
+}
+
+.track-time {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .music-controls {
-  margin-top: 20px;
+  margin-top: 30px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -177,7 +190,7 @@ body {
   }
 }
 
-.music-control i.is-active {
+.music-control.is-active i {
   color: #4199e1;
 }
 

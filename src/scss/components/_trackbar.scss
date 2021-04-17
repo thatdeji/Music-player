@@ -22,3 +22,12 @@
   width: 0%;
   transition: width 0.1s linear;
 }
+.track-range {
+  width: 100%;
+  display: none;
+}
+.track-time {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  @include flex($justify: space-between);
+}
