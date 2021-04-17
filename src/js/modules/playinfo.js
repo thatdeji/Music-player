@@ -1,4 +1,4 @@
-import songList from "./song.js";
+import { songList } from "./song.js";
 
 // Playinfo module //IIFE
 const playInfo = (() => {
@@ -128,7 +128,8 @@ const playInfo = (() => {
   return {
     init,
     handleNext,
-    setState
+    setState,
+    state
   };
 })();
 

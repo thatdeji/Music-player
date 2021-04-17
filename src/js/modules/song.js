@@ -2,8 +2,8 @@ export const songList = [
   {
     title: "Element",
     artist: "Kendrick Lamar",
-    url: "music/Kendrick/ELEMENT",
-    cover: "music/Kendrick/cover"
+    url: "ELEMENT.80dc05ff",
+    cover: "cover.62496288"
   },
   {
     title: "Shea Butter Baby",

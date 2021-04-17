@@ -1,3 +1,4 @@
+<h1>MUSIC PLAYER WEB APP</h1>
 ### To kickstart the boilerplate, run the following commands:
 
 ```bash

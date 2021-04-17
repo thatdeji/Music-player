@@ -4,6 +4,7 @@ import playInfo from "./playinfo.js";
 const trackBar = (() => {
   // cache the DOM
   const trackContainerEl = document.querySelector("#js-track-container"),
+    audioEl = document.querySelector("#js-audio"),
     trackBarEl = document.querySelector("#js-track-bar");
   //state
   const state = {

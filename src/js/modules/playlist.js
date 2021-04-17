@@ -1,17 +1,19 @@
-import songList from "./song.js";
+import { songList } from "./song.js";
 import playInfo from "./playinfo.js";
 
 const playList = (() => {
   // caches the DOM
   const musicListEl = document.querySelector("#js-music-list"),
     menuBtn = document.querySelector("#js-menu-btn"),
+    audioEl = document.querySelector("#js-audio"),
     sideBar = document.querySelector("#js-sidebar");
   // renders to the DOM
   const render = () => {
     let markup = "";
     songList.forEach((song, index) => {
       markup += `
-    <li class = "music-list-item ${index === state.currentlyPlayingIndex
+    <li class = "music-list-item ${index ===
+    playInfo.state.currentlyPlayingIndex
       ? " is-active"
       : ""}" id="${index}">
       <img src= "${songList[index]
@@ -28,7 +30,7 @@ const playList = (() => {
       e.target.matches(".music-list-image") ||
       e.target.matches(".music-list-title")
     ) {
-      audioEl.duration = 0;
+      audioEl.currentTime = 0;
       playInfo.setState({
         isPlaying: true,
         currentlyPlayingIndex: Number(e.target.id)
