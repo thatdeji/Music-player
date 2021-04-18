@@ -2,113 +2,145 @@ export const songList = [
   {
     title: "Element",
     artist: "Kendrick Lamar",
-    url: "ELEMENT.80dc05ff",
-    cover: "cover.62496288",
+    url:
+      "https://res.cloudinary.com/dexg5uy3d/video/upload/v1618702079/Kendrick/ELEMENT_tp4lep",
+    cover:
+      "https://res.cloudinary.com/dexg5uy3d/image/upload/v1618701813/Kendrick/cover_c2qcla",
     color: "#191917"
   },
   {
     title: "Shea Butter Baby",
     artist: "Ari Lennox ft. J.cole",
-    url: "music/J.cole/Shea Butter Baby",
-    cover: "music/J.cole/cover",
+    url:
+      "https://res.cloudinary.com/dexg5uy3d/video/upload/v1618702349/J.cole/Shea_Butter_Baby_mvex0l",
+    cover:
+      "https://res.cloudinary.com/dexg5uy3d/image/upload/v1618702286/J.cole/Cover_a78jwc",
     color: "#bd9660"
   },
   {
     title: "Wishing Well",
     artist: "Juice Wrld",
-    url: "music/Juice Wrld/Wishing Well",
-    cover: "music/Juice Wrld/cover",
+    url:
+      "https://res.cloudinary.com/dexg5uy3d/video/upload/v1618702055/Juice%20Wrld/Wishing_Well_qh2mjn",
+    cover:
+      "https://res.cloudinary.com/dexg5uy3d/image/upload/v1618701822/Juice%20Wrld/Cover_yxufju",
     color: "#fd6a8e"
   },
   {
     title: "Topanga",
     artist: "Trippie Redd",
-    url: "music/Trippie Redd/Topanga",
-    cover: "music/Trippie Redd/cover",
+    url:
+      "https://res.cloudinary.com/dexg5uy3d/video/upload/v1618702251/Trippie%20redd/Topanga_fmognq",
+    cover:
+      "https://res.cloudinary.com/dexg5uy3d/image/upload/v1618702064/Trippie%20redd/cover_pagarg",
     color: "#f47f68"
   },
   {
     title: "NO BYSTANDERS",
     artist: "Travis Scott",
-    url: "music/Travis Scott/NO BYSTANDERS",
-    cover: "music/Travis Scott/cover",
+    url:
+      "https://res.cloudinary.com/dexg5uy3d/video/upload/v1618702220/Travis%20Scott/NO_BYSTANDERS_se391g",
+    cover:
+      "https://res.cloudinary.com/dexg5uy3d/image/upload/v1618701902/Travis%20Scott/cover_ieakc9",
     color: "#f7c64f"
   },
   {
     title: "Moonlight",
     artist: "XXXtentacion",
-    url: "music/XXXtentacion/Moonlight",
-    cover: "music/XXXtentacion/cover",
+    url:
+      "https://res.cloudinary.com/dexg5uy3d/video/upload/v1618702341/XXXtentacion/Moonlight_t9ubbt",
+    cover:
+      "https://res.cloudinary.com/dexg5uy3d/image/upload/v1618702088/XXXtentacion/Cover_xa9nvp",
     color: "#787878"
   },
   {
     title: "Gunna",
     artist: "Gunna ft. Young thug & Wheezy",
-    url: "music/Gunna/3 Headed Snake",
-    cover: "music/Gunna/cover",
+    url:
+      "https://res.cloudinary.com/dexg5uy3d/video/upload/v1618702366/Gunna/3_Headed_Snake_uz5erx",
+    cover:
+      "https://res.cloudinary.com/dexg5uy3d/image/upload/v1618702280/Gunna/Cover_bbeepx",
     color: "#439eb3"
   },
   {
     title: " Praise the Lord (Da Shine)",
     artist: "A$AP Rocky ft. Skepta",
-    url: "music/A$AP/Praise the Lord (Da Shine)",
-    cover: "music/A$AP/cover",
+    url:
+      "https://res.cloudinary.com/dexg5uy3d/video/upload/v1618702341/A%24AP/Praise_the_Lord_Da_Shine_i55j3v",
+    cover:
+      "https://res.cloudinary.com/dexg5uy3d/image/upload/v1618702142/A%24AP/Cover_dbolhv",
     color: "#9e9617"
   },
   {
     title: "Facts",
     artist: "Kanye West",
-    url: "music/Kanye West/Facts (Charlie Heat Version)",
-    cover: "music/Kanye West/Cover",
+    url:
+      "https://res.cloudinary.com/dexg5uy3d/video/upload/v1618701896/Kanye%20West/Facts_Charlie_Heat_Version_cbo1ct",
+    cover:
+      "https://res.cloudinary.com/dexg5uy3d/image/upload/v1618702142/A%24AP/Cover_dbolhv",
     color: "#e28a5c"
   },
   {
     title: "Onyeka",
     artist: "Burna boy",
-    url: "music/Burna boy/Onyeka",
-    cover: "music/Burna boy/cover",
+    url:
+      "https://res.cloudinary.com/dexg5uy3d/video/upload/v1618702365/Burna%20boy/Onyeka_bozc1s",
+    cover:
+      "https://res.cloudinary.com/dexg5uy3d/image/upload/v1618702237/Burna%20boy/cover_fbtvbw",
     color: "#e7bc6a"
   },
   {
     title: "No More Parties",
     artist: "Coi Leray",
-    url: "music/Coi Leray/No More Parties",
-    cover: "music/Coi Leray/cover",
+    url:
+      "https://res.cloudinary.com/dexg5uy3d/video/upload/v1618702324/Coi%20Leray/No_More_Parties_ilb9po",
+    cover:
+      "https://res.cloudinary.com/dexg5uy3d/image/upload/v1618702242/Coi%20Leray/cover_ldx0ww",
     color: "#f64555"
   },
   {
     title: "10 Freaky Girls",
     artist: "Metro Boomin",
-    url: "music/Metro Boomin/10 Freaky Girls",
-    cover: "music/Metro Boomin/cover",
+    url:
+      "https://res.cloudinary.com/dexg5uy3d/video/upload/v1618701938/Metro%20Boomin/10_Freaky_Girls_yhbfkb",
+    cover:
+      "https://res.cloudinary.com/dexg5uy3d/image/upload/v1618701818/Metro%20Boomin/Cover_fetatg",
     color: "#f1b746"
   },
   {
     title: "Y.M.C.A.",
     artist: "Village People",
-    url: "music/Village People/Y.M.C.A.",
-    cover: "music/Village People/cover",
+    url:
+      "https://res.cloudinary.com/dexg5uy3d/video/upload/v1618702381/Village%20People/Y.M.C.A._uz9w4e",
+    cover:
+      "https://res.cloudinary.com/dexg5uy3d/image/upload/v1618702070/Village%20People/cover_hfmu90",
     color: "#5369ce"
   },
   {
     title: "Nuketown",
     artist: "Skimask the Slump God",
-    url: "music/Skimask/Nuketown",
-    cover: "music/Skimask/cover",
+    url:
+      "https://res.cloudinary.com/dexg5uy3d/video/upload/v1618702089/Skimask/Nuketown_ibufch",
+    cover:
+      "https://res.cloudinary.com/dexg5uy3d/image/upload/v1618701854/Skimask/Cover_kwscqp",
     color: "#765443"
   },
   {
     title: "Circle of bosses",
     artist: "Young thug ft. Quavo",
-    url: "music/Young Thug/Circle of bosses",
-    cover: "music/Young Thug/cover",
+    url:
+      "https://res.cloudinary.com/dexg5uy3d/video/upload/v1618702276/Young%20Thug/Circle_of_bosses_sppgxv",
+    cover:
+      "https://res.cloudinary.com/dexg5uy3d/image/upload/v1618702094/Young%20Thug/Cover_itz2cg",
     color: "#9bb229"
   },
   {
     title: "No Permission",
     artist: "Nasty C ft. Runtown",
-    url: "music/Nasty C/No Permission",
-    cover: "music/Nasty C/cover",
+    url:
+      "https://res.cloudinary.com/dexg5uy3d/video/upload/v1618702232/Nasty%20C/No_Permission_aw4cvt",
+    cover:
+      "https://res.cloudinary.com/dexg5uy3d/image/upload/v1618701821/Nasty%20C/cover_ppgmu3",
     color: "#e1495d"
   }
 ];

@@ -115,6 +115,23 @@ body {
   margin-bottom: 15px;
 }
 
+.music-loading {
+  width: 20px;
+  height: 20px;
+  background-color: #f2f2f2;
+  border: 4px solid #4199e1;
+  border-radius: 50%;
+  animation: scale 0.5s linear infinite alternate;
+}
+@keyframes scale {
+  from {
+    transform: scale(0.6);
+  }
+  to {
+    transform: scale(1.4);
+  }
+}
+
 .track-container {
   background: #d4d4d4;
   border-radius: 4px;
@@ -260,9 +277,6 @@ body {
 }
 
 .music-list-item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   padding: 7px;
   color: #1a1a1a;
   cursor: pointer;
@@ -275,12 +289,14 @@ body {
 }
 
 .music-list-image {
+  display: inline-block;
   width: 50px;
   height: 50px;
   object-fit: cover;
 }
 
 .music-list-title {
+  display: inline-block;
   font-size: 0.6rem;
   font-weight: 400;
   margin-left: 10px;

@@ -13,7 +13,9 @@ const playInfo = (() => {
     buttonPlayEl = document.querySelector("#js-button-play"),
     buttonNextEl = document.querySelector("#js-button-next"),
     buttonRepeatEl = document.querySelector("#js-button-repeat"),
-    trackBarEl = document.querySelector("#js-track-bar");
+    trackBarEl = document.querySelector("#js-track-bar"),
+    loadingEl = document.querySelector("#js-music-loading"),
+    errorEl = document.querySelector("#js-music-error");
 
   // state
   const state = {
@@ -25,6 +27,7 @@ const playInfo = (() => {
 
   //loads song details to the DOM
   const loadSongDetails = state => {
+    loadingEl.style.display = "none";
     trackBarEl.style.backgroundColor = `${songList[state.currentlyPlayingIndex]
       .color}`;
     musicCoverEl.src = `${songList[state.currentlyPlayingIndex].cover}.jpg`;
@@ -69,13 +72,39 @@ const playInfo = (() => {
       });
     }
     playList.render();
-    audioEl.play();
+    //displays loading and error elements
+    loadingEl.style.display = "block";
+    errorEl.textContent = "";
+    audioEl
+      .play()
+      .then(() => {
+        loadingEl.style.display = "none";
+        errorEl.textContent = "";
+      })
+      .catch(() => {
+        errorEl.textContent = "Something went wrong, try again";
+      });
   };
   // plays or pauses song
   const handlePlay = () => {
     state.isPlaying = !state.isPlaying;
+    //displays loading and error elements
+    if (state.isPlaying) {
+      loadingEl.style.display = "block";
+      errorEl.textContent = "";
+    }
     togglePlayPause();
-    return audioEl.paused ? audioEl.play() : audioEl.pause();
+    return audioEl.paused
+      ? audioEl
+          .play()
+          .then(() => {
+            loadingEl.style.display = "none";
+            errorEl.textContent = "";
+          })
+          .catch(() => {
+            errorEl.textContent = "Something went wrong, try again";
+          })
+      : audioEl.pause();
   };
   // moves song forwards
   const handleNext = () => {

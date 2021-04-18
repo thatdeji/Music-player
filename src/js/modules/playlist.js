@@ -6,7 +6,9 @@ const playList = (() => {
   const musicListEl = document.querySelector("#js-music-list"),
     menuBtn = document.querySelector("#js-menu-btn"),
     audioEl = document.querySelector("#js-audio"),
-    sideBar = document.querySelector("#js-sidebar");
+    sideBar = document.querySelector("#js-sidebar"),
+    loadingEl = document.querySelector("#js-music-loading"),
+    errorEl = document.querySelector("#js-music-error");
   // renders to the DOM
   const render = () => {
     let markup = "";
@@ -35,8 +37,19 @@ const playList = (() => {
         isPlaying: true,
         currentlyPlayingIndex: Number(e.target.id)
       });
-      audioEl.play();
       render();
+      //displays loading and error elements
+      loadingEl.style.display = "block";
+      errorEl.textContent = "";
+      audioEl
+        .play()
+        .then(() => {
+          loadingEl.style.display = "none";
+          errorEl.textContent = "";
+        })
+        .catch(() => {
+          errorEl.textContent = "Something went wrong";
+        });
     }
   };
 
