@@ -32,12 +32,19 @@ const playList = (() => {
       e.target.matches(".music-list-image") ||
       e.target.matches(".music-list-title")
     ) {
+      //removes active classname from current active list
+      document
+        .getElementById(`${playInfo.state.currentlyPlayingIndex}`)
+        .classList.remove("is-active");
       audioEl.currentTime = 0;
       playInfo.setState({
         isPlaying: true,
         currentlyPlayingIndex: Number(e.target.id)
       });
-      render();
+      //adds active classname to new current active list
+      document
+        .getElementById(`${playInfo.state.currentlyPlayingIndex}`)
+        .classList.add("is-active");
       //displays loading and error elements
       loadingEl.style.display = "block";
       errorEl.textContent = "";

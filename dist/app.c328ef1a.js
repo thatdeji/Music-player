@@ -258,14 +258,17 @@ var playList = function () {
 
   var handleClick = function handleClick(e) {
     if (e.target && e.target.matches(".music-list-item") || e.target.matches(".music-list-image") || e.target.matches(".music-list-title")) {
+      //removes active classname from current active list
+      document.getElementById("".concat(_playinfo.default.state.currentlyPlayingIndex)).classList.remove("is-active");
       audioEl.currentTime = 0;
 
       _playinfo.default.setState({
         isPlaying: true,
         currentlyPlayingIndex: Number(e.target.id)
-      });
+      }); //adds active classname to new current active list
 
-      render(); //displays loading and error elements
+
+      document.getElementById("".concat(_playinfo.default.state.currentlyPlayingIndex)).classList.add("is-active"); //displays loading and error elements
 
       loadingEl.style.display = "block";
       errorEl.textContent = "";
@@ -340,6 +343,7 @@ var playInfo = function () {
 
   var loadSongDetails = function loadSongDetails(state) {
     loadingEl.style.display = "none";
+    trackBarEl.style.width = "0%";
     trackBarEl.style.backgroundColor = "".concat(_song.songList[state.currentlyPlayingIndex].color);
     musicCoverEl.src = "".concat(_song.songList[state.currentlyPlayingIndex].cover, ".jpg");
     audioEl.src = "".concat(_song.songList[state.currentlyPlayingIndex].url, ".mp3");
@@ -376,7 +380,9 @@ var playInfo = function () {
 
 
   var songMove = function songMove(index) {
-    // const currentlyPlayingIndex = currentlyPlayingIndex;
+    //removes active classname from current active list
+    document.getElementById("".concat(state.currentlyPlayingIndex)).classList.remove("is-active"); // const currentlyPlayingIndex = currentlyPlayingIndex;
+
     if (state.isShuffled) {
       setState({
         isPlaying: true,
@@ -387,10 +393,10 @@ var playInfo = function () {
         isPlaying: true,
         currentlyPlayingIndex: index
       });
-    }
+    } //adds active classname to new current active list
 
-    _playlist.default.render(); //displays loading and error elements
 
+    document.getElementById("".concat(playInfo.state.currentlyPlayingIndex)).classList.add("is-active"); //displays loading and error elements
 
     loadingEl.style.display = "block";
     errorEl.textContent = "";
@@ -499,7 +505,9 @@ var trackBar = function () {
   var trackContainerEl = document.querySelector("#js-track-container"),
       audioEl = document.querySelector("#js-audio"),
       trackBarEl = document.querySelector("#js-track-bar"),
-      currentTimeEl = document.querySelector("#js-current-time"); //state
+      currentTimeEl = document.querySelector("#js-current-time"),
+      loadingEl = document.querySelector("#js-music-loading"),
+      errorEl = document.querySelector("#js-music-error"); //state
 
   var state = {
     currentTime: 0,
@@ -521,13 +529,22 @@ var trackBar = function () {
 
 
   var handleEnd = function handleEnd() {
+    //displays loading and error elements
+    loadingEl.style.display = "block";
+    errorEl.textContent = "";
+
     if (_playinfo.default.state.isRepeated) {
       _playinfo.default.setState({
         isPlaying: true,
         currentlyPlayingIndex: _playinfo.default.state.currentlyPlayingIndex
       });
 
-      audioEl.play();
+      audioEl.play().then(function () {
+        loadingEl.style.display = "none";
+        errorEl.textContent = "";
+      }).catch(function () {
+        errorEl.textContent = "Something went wrong, try again";
+      });
     } else {
       _playinfo.default.handleNext();
     }
@@ -547,7 +564,6 @@ var trackBar = function () {
     state.currentTime = currentTime;
     state.totalTime = duration;
     state.fillWidth = state.currentTime / state.totalTime * 100;
-    console.log();
     render();
   }; //sets up event listeners
 

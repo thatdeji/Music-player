@@ -6,7 +6,9 @@ const trackBar = (() => {
   const trackContainerEl = document.querySelector("#js-track-container"),
     audioEl = document.querySelector("#js-audio"),
     trackBarEl = document.querySelector("#js-track-bar"),
-    currentTimeEl = document.querySelector("#js-current-time");
+    currentTimeEl = document.querySelector("#js-current-time"),
+    loadingEl = document.querySelector("#js-music-loading"),
+    errorEl = document.querySelector("#js-music-error");
   //state
   const state = {
     currentTime: 0,
@@ -26,12 +28,23 @@ const trackBar = (() => {
   }
   //handles the end of a song
   const handleEnd = () => {
+    //displays loading and error elements
+    loadingEl.style.display = "block";
+    errorEl.textContent = "";
     if (playInfo.state.isRepeated) {
       playInfo.setState({
         isPlaying: true,
         currentlyPlayingIndex: playInfo.state.currentlyPlayingIndex
       });
-      audioEl.play();
+      audioEl
+        .play()
+        .then(() => {
+          loadingEl.style.display = "none";
+          errorEl.textContent = "";
+        })
+        .catch(() => {
+          errorEl.textContent = "Something went wrong, try again";
+        });
     } else {
       playInfo.handleNext();
     }
@@ -50,7 +63,6 @@ const trackBar = (() => {
     state.currentTime = currentTime;
     state.totalTime = duration;
     state.fillWidth = state.currentTime / state.totalTime * 100;
-    console.log();
     render();
   };
   //sets up event listeners

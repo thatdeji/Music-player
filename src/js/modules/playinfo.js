@@ -28,6 +28,7 @@ const playInfo = (() => {
   //loads song details to the DOM
   const loadSongDetails = state => {
     loadingEl.style.display = "none";
+    trackBarEl.style.width = "0%";
     trackBarEl.style.backgroundColor = `${songList[state.currentlyPlayingIndex]
       .color}`;
     musicCoverEl.src = `${songList[state.currentlyPlayingIndex].cover}.jpg`;
@@ -62,6 +63,10 @@ const playInfo = (() => {
 
   // changes song either forwards or backwards
   const songMove = index => {
+    //removes active classname from current active list
+    document
+      .getElementById(`${state.currentlyPlayingIndex}`)
+      .classList.remove("is-active");
     // const currentlyPlayingIndex = currentlyPlayingIndex;
     if (state.isShuffled) {
       setState({ isPlaying: true, currentlyPlayingIndex: getRandomIndex() });
@@ -71,7 +76,10 @@ const playInfo = (() => {
         currentlyPlayingIndex: index
       });
     }
-    playList.render();
+    //adds active classname to new current active list
+    document
+      .getElementById(`${playInfo.state.currentlyPlayingIndex}`)
+      .classList.add("is-active");
     //displays loading and error elements
     loadingEl.style.display = "block";
     errorEl.textContent = "";

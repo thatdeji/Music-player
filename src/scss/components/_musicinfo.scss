@@ -8,8 +8,8 @@
   animation-play-state: paused;
   box-shadow: $shadow1;
   @include media("<=768px") {
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
   }
   @include media("<=300px") {
     width: 150px;
