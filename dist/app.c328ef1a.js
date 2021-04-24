@@ -448,6 +448,7 @@ var playInfo = function () {
   var handleRepeat = function handleRepeat() {
     state.isRepeated = !state.isRepeated;
     loadButton(state.isRepeated, buttonRepeatEl);
+    audioEl.loop = true ? state.isRepeated : false;
   }; //renders playinfo module to the DOM
 
 
@@ -529,25 +530,7 @@ var trackBar = function () {
 
 
   var handleEnd = function handleEnd() {
-    //displays loading and error elements
-    loadingEl.style.display = "block";
-    errorEl.textContent = "";
-
-    if (_playinfo.default.state.isRepeated) {
-      _playinfo.default.setState({
-        isPlaying: true,
-        currentlyPlayingIndex: _playinfo.default.state.currentlyPlayingIndex
-      });
-
-      audioEl.play().then(function () {
-        loadingEl.style.display = "none";
-        errorEl.textContent = "";
-      }).catch(function () {
-        errorEl.textContent = "Something went wrong, try again";
-      });
-    } else {
-      _playinfo.default.handleNext();
-    }
+    _playinfo.default.handleNext();
   }; // renders to the DOM
 
 
@@ -635,7 +618,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60089" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49199" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

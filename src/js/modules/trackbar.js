@@ -28,26 +28,7 @@ const trackBar = (() => {
   }
   //handles the end of a song
   const handleEnd = () => {
-    //displays loading and error elements
-    loadingEl.style.display = "block";
-    errorEl.textContent = "";
-    if (playInfo.state.isRepeated) {
-      playInfo.setState({
-        isPlaying: true,
-        currentlyPlayingIndex: playInfo.state.currentlyPlayingIndex
-      });
-      audioEl
-        .play()
-        .then(() => {
-          loadingEl.style.display = "none";
-          errorEl.textContent = "";
-        })
-        .catch(() => {
-          errorEl.textContent = "Something went wrong, try again";
-        });
-    } else {
-      playInfo.handleNext();
-    }
+    playInfo.handleNext();
   };
   // renders to the DOM
   const render = () => {

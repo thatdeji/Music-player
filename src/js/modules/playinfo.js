@@ -139,6 +139,7 @@ const playInfo = (() => {
   const handleRepeat = () => {
     state.isRepeated = !state.isRepeated;
     loadButton(state.isRepeated, buttonRepeatEl);
+    audioEl.loop = true ? state.isRepeated : false;
   };
 
   //renders playinfo module to the DOM
