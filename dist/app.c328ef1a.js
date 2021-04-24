@@ -222,181 +222,306 @@ var songList = [{
   color: "#e1495d"
 }];
 exports.songList = songList;
-},{}],"js/modules/playlist.js":[function(require,module,exports) {
+},{}],"js/modules/playinfo.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports.init = exports.handleNext = exports.setState = exports.state = void 0;
 
 var _song = require("./song.js");
 
-var _playinfo = _interopRequireDefault(require("./playinfo.js"));
+//cache the DOM
+var musicCoverEl = document.querySelector("#js-music-cover"),
+    musicTitleEl = document.querySelector("#js-music-title"),
+    musicArtistEl = document.querySelector("#js-music-artist"),
+    audioEl = document.querySelector("#js-audio"),
+    buttonShuffleEl = document.querySelector("#js-button-shuffle"),
+    buttonPrevEl = document.querySelector("#js-button-prev"),
+    buttonPlayEl = document.querySelector("#js-button-play"),
+    buttonNextEl = document.querySelector("#js-button-next"),
+    buttonRepeatEl = document.querySelector("#js-button-repeat"),
+    trackBarEl = document.querySelector("#js-track-bar"),
+    loadingEl = document.querySelector("#js-music-loading"),
+    errorEl = document.querySelector("#js-music-error"); // state
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var state = {
+  isPlaying: false,
+  currentlyPlayingIndex: 0,
+  isShuffled: false,
+  isRepeated: false
+}; //loads song details to the DOM
 
-var playList = function () {
-  // caches the DOM
-  var musicListEl = document.querySelector("#js-music-list"),
-      menuBtn = document.querySelector("#js-menu-btn"),
-      audioEl = document.querySelector("#js-audio"),
-      sideBar = document.querySelector("#js-sidebar"),
-      loadingEl = document.querySelector("#js-music-loading"),
-      errorEl = document.querySelector("#js-music-error"); // renders to the DOM
+exports.state = state;
 
-  var render = function render() {
-    var markup = "";
+var loadSongDetails = function loadSongDetails(state) {
+  loadingEl.classList.toggle("d-none");
+  trackBarEl.classList.toggle("w-0");
+  trackBarEl.style.backgroundColor = "".concat(_song.songList[state.currentlyPlayingIndex].color);
+  musicCoverEl.src = "".concat(_song.songList[state.currentlyPlayingIndex].cover, ".jpg");
+  audioEl.src = "".concat(_song.songList[state.currentlyPlayingIndex].url, ".mp3");
+  musicTitleEl.innerText = _song.songList[state.currentlyPlayingIndex].title;
+  musicArtistEl.innerText = _song.songList[state.currentlyPlayingIndex].artist;
+}; // loads music control button
 
-    _song.songList.forEach(function (song, index) {
-      markup += "\n    <li class = \"music-list-item ".concat(index === _playinfo.default.state.currentlyPlayingIndex ? " is-active" : "", "\" id=\"").concat(index, "\">\n      <img src= \"").concat(_song.songList[index].cover, ".jpg\" alt=\"\" class=\"music-list-image\" id=\"").concat(index, "\" />\n      <h6 class=\"music-list-title\" id=\"").concat(index, "\">").concat(_song.songList[index].title, "</h6>\n    </li>");
+
+var loadButton = function loadButton(state, element) {
+  if (state) {
+    element.classList.add("is-active");
+  } else {
+    element.classList.remove("is-active");
+  }
+}; // switches button and music cover image to play or pause mode based on playing state
+
+
+var togglePlayPause = function togglePlayPause() {
+  if (state.isPlaying) {
+    buttonPlayEl.firstElementChild.className = "fa fa-pause";
+    musicCoverEl.classList.add("is-active");
+  } else {
+    buttonPlayEl.firstElementChild.className = "fa fa-play";
+    musicCoverEl.classList.remove("is-active");
+  }
+}; // sets state
+
+
+var setState = function setState(obj) {
+  state.isPlaying = obj.isPlaying;
+  state.currentlyPlayingIndex = obj.currentlyPlayingIndex;
+  render();
+}; // changes song either forwards or backwards
+
+
+exports.setState = setState;
+
+var songMove = function songMove(index) {
+  //removes active classname from current active list
+  document.getElementById("".concat(state.currentlyPlayingIndex)).classList.remove("is-active"); // const currentlyPlayingIndex = currentlyPlayingIndex;
+
+  if (state.isShuffled) {
+    setState({
+      isPlaying: true,
+      currentlyPlayingIndex: getRandomIndex()
     });
-
-    musicListEl.innerHTML = markup;
-  }; //handles the playlist items click event
-
-
-  var handleClick = function handleClick(e) {
-    if (e.target && e.target.matches(".music-list-item") || e.target.matches(".music-list-image") || e.target.matches(".music-list-title")) {
-      //removes active classname from current active list
-      document.getElementById("".concat(_playinfo.default.state.currentlyPlayingIndex)).classList.remove("is-active");
-      audioEl.currentTime = 0;
-
-      _playinfo.default.setState({
-        isPlaying: true,
-        currentlyPlayingIndex: Number(e.target.id)
-      }); //adds active classname to new current active list
-
-
-      document.getElementById("".concat(_playinfo.default.state.currentlyPlayingIndex)).classList.add("is-active"); //displays loading and error elements
-
-      loadingEl.style.display = "block";
-      errorEl.textContent = "";
-      audioEl.play().then(function () {
-        loadingEl.style.display = "none";
-        errorEl.textContent = "";
-      }).catch(function () {
-        errorEl.textContent = "Something went wrong";
-      });
-    }
-  }; // sets up event listeners
-
-
-  var listeners = function listeners() {
-    menuBtn.addEventListener("click", function (e) {
-      sideBar.classList.toggle("is-open");
-      menuBtn.classList.toggle("is-open");
+  } else {
+    setState({
+      isPlaying: true,
+      currentlyPlayingIndex: index
     });
-    musicListEl.addEventListener("click", handleClick);
-  };
+  } //adds active classname to new current active list
 
-  var init = function init() {
-    render();
-    listeners();
-  };
 
-  return {
-    init: init,
-    render: render,
-    listeners: listeners
-  };
-}();
+  document.getElementById("".concat(playInfo.state.currentlyPlayingIndex)).classList.add("is-active"); //displays loading and error elements
 
-var _default = playList;
-exports.default = _default;
-},{"./song.js":"js/modules/song.js","./playinfo.js":"js/modules/playinfo.js"}],"js/modules/playinfo.js":[function(require,module,exports) {
+  loadingEl.classList.toggle("d-none");
+  errorEl.textContent = "";
+  audioEl.play().then(function () {
+    loadingEl.classList.toggle("d-none");
+    errorEl.textContent = "";
+  }).catch(function () {
+    errorEl.textContent = "Something went wrong, try again";
+  });
+}; // plays or pauses song
+
+
+var handlePlay = function handlePlay() {
+  state.isPlaying = !state.isPlaying; //displays loading and error elements
+
+  if (state.isPlaying) {
+    loadingEl.classList.toggle("d-none");
+    errorEl.textContent = "";
+  }
+
+  togglePlayPause();
+  return audioEl.paused ? audioEl.play().then(function () {
+    loadingEl.classList.toggle("d-none");
+    errorEl.textContent = "";
+  }).catch(function () {
+    errorEl.textContent = "Something went wrong, try again";
+  }) : audioEl.pause();
+}; // moves song forwards
+
+
+var handleNext = function handleNext() {
+  var currentlyPlayingIndex = state.currentlyPlayingIndex === _song.songList.length - 1 ? 0 : state.currentlyPlayingIndex + 1;
+  songMove(currentlyPlayingIndex);
+}; // moves song backwards
+
+
+exports.handleNext = handleNext;
+
+var handlePrev = function handlePrev() {
+  var currentlyPlayingIndex = state.currentlyPlayingIndex === 0 ? _song.songList.length - 1 : state.currentlyPlayingIndex - 1;
+  songMove(currentlyPlayingIndex);
+}; //shuffles song
+
+
+var handleShuffle = function handleShuffle() {
+  state.isShuffled = !state.isShuffled;
+  loadButton(state.isShuffled, buttonShuffleEl);
+}; //repeats song
+
+
+var handleRepeat = function handleRepeat() {
+  state.isRepeated = !state.isRepeated;
+  loadButton(state.isRepeated, buttonRepeatEl);
+  audioEl.loop = true ? state.isRepeated : false;
+}; //renders playinfo module to the DOM
+
+
+var render = function render() {
+  loadSongDetails(state);
+  togglePlayPause();
+  loadButton(state.isShuffled, buttonShuffleEl);
+}; //sets up even listseners for the play info module
+
+
+var listeners = function listeners() {
+  buttonPlayEl.addEventListener("click", handlePlay);
+  buttonNextEl.addEventListener("click", handleNext);
+  buttonPrevEl.addEventListener("click", handlePrev);
+  buttonShuffleEl.addEventListener("click", handleShuffle);
+  buttonRepeatEl.addEventListener("click", handleRepeat);
+}; //initialize module
+
+
+var init = function init() {
+  render();
+  listeners();
+}; //Utilities
+
+
+exports.init = init;
+
+var getRandomIndex = function getRandomIndex() {
+  return Math.floor(Math.random() * _song.songList.length);
+};
+
+return {
+  init: init,
+  handleNext: handleNext,
+  setState: setState,
+  state: state
+};
+},{"./song.js":"js/modules/song.js"}],"js/modules/trackbar.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports.trackBarInit = void 0;
+
+var _playinfo = require("./playinfo.js");
+
+// cache the DOM
+var trackContainerEl = document.querySelector("#js-track-container"),
+    audioEl = document.querySelector("#js-audio"),
+    trackBarEl = document.querySelector("#js-track-bar"),
+    currentTimeEl = document.querySelector("#js-current-time"),
+    loadingEl = document.querySelector("#js-music-loading"),
+    errorEl = document.querySelector("#js-music-error"); //state
+
+var state = {
+  currentTime: 0,
+  totalTime: 0,
+  fillWidth: 0
+}; //handles progress on song time update
+
+var handleProgress = function handleProgress(e) {
+  setState(e.srcElement);
+}; // sets music progress
+
+
+function setProgress(e) {
+  var clickX = e.offsetX;
+  var width = this.clientWidth;
+  var duration = audioEl.duration;
+  audioEl.currentTime = clickX / width * duration;
+} //handles the end of a song
+
+
+var handleEnd = function handleEnd() {
+  (0, _playinfo.handleNext)();
+}; // renders to the DOM
+
+
+var render = function render() {
+  trackBarEl.style.width = "".concat(state.fillWidth, "%");
+  var seconds = parseInt(state.currentTime % 60);
+  currentTimeEl.textContent = "".concat(parseInt(state.currentTime / 60 % 60), ":").concat(seconds < 10 ? "0" + seconds : seconds);
+}; // sets state and renders to the DOM
+
+
+var setState = function setState(obj) {
+  var duration = obj.duration,
+      currentTime = obj.currentTime;
+  state.currentTime = currentTime;
+  state.totalTime = duration;
+  state.fillWidth = state.currentTime / state.totalTime * 100;
+  render();
+}; //sets up event listeners
+
+
+var listeners = function listeners() {
+  audioEl.addEventListener("timeupdate", function (e) {
+    handleProgress(e);
+  });
+  audioEl.addEventListener("ended", handleEnd);
+  trackContainerEl.addEventListener("click", setProgress);
+}; // initialize module
+
+
+var trackBarInit = function trackBarInit() {
+  render();
+  listeners();
+};
+
+exports.trackBarInit = trackBarInit;
+},{"./playinfo.js":"js/modules/playinfo.js"}],"js/modules/playlist.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.playListInit = exports.listeners = exports.render = void 0;
 
 var _song = require("./song.js");
 
-var _playlist = _interopRequireDefault(require("./playlist.js"));
+var _playinfo = require("./playinfo.js");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+// caches the DOM
+var musicListEl = document.querySelector("#js-music-list"),
+    menuBtn = document.querySelector("#js-menu-btn"),
+    audioEl = document.querySelector("#js-audio"),
+    sideBar = document.querySelector("#js-sidebar"),
+    loadingEl = document.querySelector("#js-music-loading"),
+    errorEl = document.querySelector("#js-music-error"); // renders to the DOM
 
-// Playinfo module //IIFE
-var playInfo = function () {
-  //cache the DOM
-  var musicCoverEl = document.querySelector("#js-music-cover"),
-      musicTitleEl = document.querySelector("#js-music-title"),
-      musicArtistEl = document.querySelector("#js-music-artist"),
-      audioEl = document.querySelector("#js-audio"),
-      buttonShuffleEl = document.querySelector("#js-button-shuffle"),
-      buttonPrevEl = document.querySelector("#js-button-prev"),
-      buttonPlayEl = document.querySelector("#js-button-play"),
-      buttonNextEl = document.querySelector("#js-button-next"),
-      buttonRepeatEl = document.querySelector("#js-button-repeat"),
-      trackBarEl = document.querySelector("#js-track-bar"),
-      loadingEl = document.querySelector("#js-music-loading"),
-      errorEl = document.querySelector("#js-music-error"); // state
+var render = function render() {
+  var markup = "";
 
-  var state = {
-    isPlaying: false,
-    currentlyPlayingIndex: 0,
-    isShuffled: false,
-    isRepeated: false
-  }; //loads song details to the DOM
+  _song.songList.forEach(function (song, index) {
+    markup += "\n    <li class = \"music-list-item ".concat(index === _playinfo.state.currentlyPlayingIndex ? " is-active" : "", "\" id=\"").concat(index, "\">\n      <img src= \"").concat(_song.songList[index].cover, ".jpg\" alt=\"\" class=\"music-list-image\" id=\"").concat(index, "\" />\n      <h6 class=\"music-list-title\" id=\"").concat(index, "\">").concat(_song.songList[index].title, "</h6>\n    </li>");
+  });
 
-  var loadSongDetails = function loadSongDetails(state) {
-    loadingEl.style.display = "none";
-    trackBarEl.style.width = "0%";
-    trackBarEl.style.backgroundColor = "".concat(_song.songList[state.currentlyPlayingIndex].color);
-    musicCoverEl.src = "".concat(_song.songList[state.currentlyPlayingIndex].cover, ".jpg");
-    audioEl.src = "".concat(_song.songList[state.currentlyPlayingIndex].url, ".mp3");
-    musicTitleEl.innerText = _song.songList[state.currentlyPlayingIndex].title;
-    musicArtistEl.innerText = _song.songList[state.currentlyPlayingIndex].artist;
-  }; // loads music control button
+  musicListEl.innerHTML = markup;
+}; //handles the playlist items click event
 
 
-  var loadButton = function loadButton(state, element) {
-    if (state) {
-      element.classList.add("is-active");
-    } else {
-      element.classList.remove("is-active");
-    }
-  }; // switches button and music cover image to play or pause mode based on playing state
+exports.render = render;
 
-
-  var togglePlayPause = function togglePlayPause() {
-    if (state.isPlaying) {
-      buttonPlayEl.firstElementChild.className = "fa fa-pause";
-      musicCoverEl.classList.add("is-active");
-    } else {
-      buttonPlayEl.firstElementChild.className = "fa fa-play";
-      musicCoverEl.classList.remove("is-active");
-    }
-  }; // sets state
-
-
-  var setState = function setState(obj) {
-    state.isPlaying = obj.isPlaying;
-    state.currentlyPlayingIndex = obj.currentlyPlayingIndex;
-    render();
-  }; // changes song either forwards or backwards
-
-
-  var songMove = function songMove(index) {
+var handleClick = function handleClick(e) {
+  if (e.target && e.target.matches(".music-list-item") || e.target.matches(".music-list-image") || e.target.matches(".music-list-title")) {
     //removes active classname from current active list
-    document.getElementById("".concat(state.currentlyPlayingIndex)).classList.remove("is-active"); // const currentlyPlayingIndex = currentlyPlayingIndex;
+    document.getElementById("".concat(_playinfo.state.currentlyPlayingIndex)).classList.remove("is-active");
+    audioEl.currentTime = 0;
+    (0, _playinfo.setState)({
+      isPlaying: true,
+      currentlyPlayingIndex: Number(e.target.id)
+    }); //adds active classname to new current active list
 
-    if (state.isShuffled) {
-      setState({
-        isPlaying: true,
-        currentlyPlayingIndex: getRandomIndex()
-      });
-    } else {
-      setState({
-        isPlaying: true,
-        currentlyPlayingIndex: index
-      });
-    } //adds active classname to new current active list
-
-
-    document.getElementById("".concat(playInfo.state.currentlyPlayingIndex)).classList.add("is-active"); //displays loading and error elements
+    document.getElementById("".concat(_playinfo.state.currentlyPlayingIndex)).classList.add("is-active"); //displays loading and error elements
 
     loadingEl.style.display = "block";
     errorEl.textContent = "";
@@ -404,191 +529,41 @@ var playInfo = function () {
       loadingEl.style.display = "none";
       errorEl.textContent = "";
     }).catch(function () {
-      errorEl.textContent = "Something went wrong, try again";
+      errorEl.textContent = "Something went wrong";
     });
-  }; // plays or pauses song
+  }
+}; // sets up event listeners
 
 
-  var handlePlay = function handlePlay() {
-    state.isPlaying = !state.isPlaying; //displays loading and error elements
+var listeners = function listeners() {
+  menuBtn.addEventListener("click", function (e) {
+    sideBar.classList.toggle("is-open");
+    menuBtn.classList.toggle("is-open");
+  });
+  musicListEl.addEventListener("click", handleClick);
+};
 
-    if (state.isPlaying) {
-      loadingEl.style.display = "block";
-      errorEl.textContent = "";
-    }
+exports.listeners = listeners;
 
-    togglePlayPause();
-    return audioEl.paused ? audioEl.play().then(function () {
-      loadingEl.style.display = "none";
-      errorEl.textContent = "";
-    }).catch(function () {
-      errorEl.textContent = "Something went wrong, try again";
-    }) : audioEl.pause();
-  }; // moves song forwards
+var playListInit = function playListInit() {
+  render();
+  listeners();
+};
 
-
-  var handleNext = function handleNext() {
-    var currentlyPlayingIndex = state.currentlyPlayingIndex === _song.songList.length - 1 ? 0 : state.currentlyPlayingIndex + 1;
-    songMove(currentlyPlayingIndex);
-  }; // moves song backwards
-
-
-  var handlePrev = function handlePrev() {
-    var currentlyPlayingIndex = state.currentlyPlayingIndex === 0 ? _song.songList.length - 1 : state.currentlyPlayingIndex - 1;
-    songMove(currentlyPlayingIndex);
-  }; //shuffles song
-
-
-  var handleShuffle = function handleShuffle() {
-    state.isShuffled = !state.isShuffled;
-    loadButton(state.isShuffled, buttonShuffleEl);
-  }; //repeats song
-
-
-  var handleRepeat = function handleRepeat() {
-    state.isRepeated = !state.isRepeated;
-    loadButton(state.isRepeated, buttonRepeatEl);
-    audioEl.loop = true ? state.isRepeated : false;
-  }; //renders playinfo module to the DOM
-
-
-  var render = function render() {
-    loadSongDetails(state);
-    togglePlayPause();
-    loadButton(state.isShuffled, buttonShuffleEl);
-  }; //sets up even listseners for the play info module
-
-
-  var listeners = function listeners() {
-    buttonPlayEl.addEventListener("click", handlePlay);
-    buttonNextEl.addEventListener("click", handleNext);
-    buttonPrevEl.addEventListener("click", handlePrev);
-    buttonShuffleEl.addEventListener("click", handleShuffle);
-    buttonRepeatEl.addEventListener("click", handleRepeat);
-  }; //initialize module
-
-
-  var init = function init() {
-    render();
-    listeners();
-  }; //Utilities
-
-
-  var getRandomIndex = function getRandomIndex() {
-    return Math.floor(Math.random() * _song.songList.length);
-  };
-
-  return {
-    init: init,
-    handleNext: handleNext,
-    setState: setState,
-    state: state
-  };
-}();
-
-var _default = playInfo;
-exports.default = _default;
-},{"./song.js":"js/modules/song.js","./playlist.js":"js/modules/playlist.js"}],"js/modules/trackbar.js":[function(require,module,exports) {
+exports.playListInit = playListInit;
+},{"./song.js":"js/modules/song.js","./playinfo.js":"js/modules/playinfo.js"}],"app.js":[function(require,module,exports) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
+var _playinfo = require("./js/modules/playinfo.js");
 
-var _playinfo = _interopRequireDefault(require("./playinfo.js"));
+var _trackbar = require("./js/modules/trackbar.js");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// IIFE for trackbar module
-var trackBar = function () {
-  // cache the DOM
-  var trackContainerEl = document.querySelector("#js-track-container"),
-      audioEl = document.querySelector("#js-audio"),
-      trackBarEl = document.querySelector("#js-track-bar"),
-      currentTimeEl = document.querySelector("#js-current-time"),
-      loadingEl = document.querySelector("#js-music-loading"),
-      errorEl = document.querySelector("#js-music-error"); //state
-
-  var state = {
-    currentTime: 0,
-    totalTime: 0,
-    fillWidth: 0
-  }; //handles progress on song time update
-
-  var handleProgress = function handleProgress(e) {
-    setState(e.srcElement);
-  }; // sets music progress
-
-
-  function setProgress(e) {
-    var clickX = e.offsetX;
-    var width = this.clientWidth;
-    var duration = audioEl.duration;
-    audioEl.currentTime = clickX / width * duration;
-  } //handles the end of a song
-
-
-  var handleEnd = function handleEnd() {
-    _playinfo.default.handleNext();
-  }; // renders to the DOM
-
-
-  var render = function render() {
-    trackBarEl.style.width = "".concat(state.fillWidth, "%");
-    var seconds = parseInt(state.currentTime % 60);
-    currentTimeEl.textContent = "".concat(parseInt(state.currentTime / 60 % 60), ":").concat(seconds < 10 ? "0" + seconds : seconds);
-  }; // sets state and renders to the DOM
-
-
-  var setState = function setState(obj) {
-    var duration = obj.duration,
-        currentTime = obj.currentTime;
-    state.currentTime = currentTime;
-    state.totalTime = duration;
-    state.fillWidth = state.currentTime / state.totalTime * 100;
-    render();
-  }; //sets up event listeners
-
-
-  var listeners = function listeners() {
-    audioEl.addEventListener("timeupdate", function (e) {
-      handleProgress(e);
-    });
-    audioEl.addEventListener("ended", handleEnd);
-    trackContainerEl.addEventListener("click", setProgress);
-  }; // initialize module
-
-
-  var init = function init() {
-    render();
-    listeners();
-  };
-
-  return {
-    init: init
-  };
-}();
-
-var _default = trackBar;
-exports.default = _default;
-},{"./playinfo.js":"js/modules/playinfo.js"}],"app.js":[function(require,module,exports) {
-"use strict";
-
-var _playinfo = _interopRequireDefault(require("./js/modules/playinfo.js"));
-
-var _trackbar = _interopRequireDefault(require("./js/modules/trackbar.js"));
-
-var _playlist = _interopRequireDefault(require("./js/modules/playlist.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _playlist = require("./js/modules/playlist.js");
 
 window.addEventListener("load", function () {
-  _playinfo.default.init();
-
-  _trackbar.default.init();
-
-  _playlist.default.init();
+  (0, _playinfo.init)();
+  (0, _trackbar.trackBarInit)();
+  (0, _playlist.playListInit)();
 });
 },{"./js/modules/playinfo.js":"js/modules/playinfo.js","./js/modules/trackbar.js":"js/modules/trackbar.js","./js/modules/playlist.js":"js/modules/playlist.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];

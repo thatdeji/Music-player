@@ -57,6 +57,14 @@ body {
   }
 }
 
+.w-0 {
+  width: 0%;
+}
+
+.d-none {
+  display: none;
+}
+
 .music-image {
   width: 300px;
   height: 300px;
