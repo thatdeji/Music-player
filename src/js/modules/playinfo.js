@@ -165,9 +165,4 @@ export const init = () => {
 const getRandomIndex = () => {
   return Math.floor(Math.random() * songList.length);
 };
-return {
-  init,
-  handleNext,
-  setState,
-  state
-};
+
