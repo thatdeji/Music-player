@@ -6,5 +6,4 @@ window.addEventListener("load", () => {
   init();
   trackBarInit();
   playListInit();
-  console.log('connected to netlify?')
 });
